@@ -16,7 +16,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! keccakf = "0.1.1"
+//! keccakf = "0.1.2"
 //! ```
 //!
 //! and this to your crate root:
@@ -24,15 +24,26 @@
 //! ```rust
 //! extern crate keccakf;
 //! ```
-//! 
+//!
+//! then you can use this code:
+//!
+//! ```rust
+//! use keccakf::KeccakF1600State; // Optional
+//! use keccakf::Permutable;
+//! // ...
+//! let state = [0u64;25];
+//! state.permute();
+//! ```
+//!
 //! Original implemntation in Rust:
-//! https://github.com/debris/tiny-keccak
+//! [tiny-keccak](https://github.com/debris/tiny-keccak)
 //!
 //! Test vectors:
-//! https://github.com/XKCP/XKCP
+//! [XKCP](https://github.com/XKCP/XKCP)
 //!
 //! Add macro and more parameters:
-//! tiannian (dtiannian@aliyun.com, dtiannian@gmail.com)
+//! tiannian ([dtiannian@aliyun.com](mailto:dtiannian@aliyun.com),
+//! [dtiannian@gmail.com](mailto:diannian@gmail.com))
 //!
 //! License: CC0, attribution kindly requested. Blame taken too,
 //! but not liability.
@@ -158,6 +169,7 @@ impl Permutable for KeccakF1600State {
 /// Type of `keccak-f[800]`'s state.
 pub type KeccakF800State = [u32;25];
 
+/// keccak-f[800]
 #[allow(unused_assignments)]
 pub fn keccakf800(state: &mut KeccakF800State) {
     const RHO: [u32; 24] = [
@@ -184,6 +196,7 @@ impl Permutable for KeccakF800State {
 /// Type of `keccak-f[400]`'s state.
 pub type KeccakF400State = [u16;25];
 
+/// keccak-f[400]
 #[allow(unused_assignments)]
 pub fn keccakf400(state: &mut KeccakF400State) {
     const RHO: [u32; 24] = [
@@ -209,6 +222,7 @@ impl Permutable for KeccakF400State {
 /// Type of `keccak-f[200]`'s state.
 pub type KeccakF200State = [u8;25];
 
+/// keccak-f[200]
 #[allow(unused_assignments)]
 pub fn keccakf200(state: &mut KeccakF200State) {
     const RHO: [u32; 24] = [

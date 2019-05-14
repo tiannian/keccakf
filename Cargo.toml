@@ -1,10 +1,12 @@
 [package]
 name = "keccakf"
-version = "0.1.1"
+version = "0.1.2"
 description = "An implementation of the keccak-F[1600,800,400,200]."
 authors = ["tiannian <dtiannian@gmail.com>"]
 edition = "2018"
 homepage = "https://github.com/tiannian/keccakf"
+repository = "https://github.com/tiannian/keccakf"
+readme = "RADME.md"
 license = "CC0-1.0"
 categories = ["cryptography", "no-std"]
 
