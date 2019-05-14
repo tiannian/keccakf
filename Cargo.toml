@@ -3,6 +3,9 @@ name = "keccakf"
 version = "0.1.0"
 authors = ["tiannian <dtiannian@gmail.com>"]
 edition = "2018"
+homepage = "https://github.com/tiannian/keccakf"
+license = "CC0-1.0"
+categories = ["cryptography", "no-std"]
 
 [dependencies]
 crunchy = "0.2.2"
