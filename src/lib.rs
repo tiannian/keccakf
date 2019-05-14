@@ -22,7 +22,7 @@
 //! and this to your crate root:
 //!
 //! ```rust
-//! extern crate keccak;
+//! extern crate keccakf;
 //! ```
 //! 
 //! Original implemntation in Rust:
@@ -121,10 +121,15 @@ const PI: [usize; 24] = [
     20, 14, 22,  9,  6, 1
 ];
 
+/// Trait for Permutable
+pub trait Permutable {
+    fn permute(&mut self);
+}
+
 /// Type of `keccak-f[1600]`'s state.
 pub type KeccakF1600State = [u64;25];
 
-/// 
+/// keccak-f[1600]
 #[allow(unused_assignments)]
 pub fn keccakf1600(state: &mut KeccakF1600State) {
     const RHO: [u32; 24] = [
@@ -142,6 +147,12 @@ pub fn keccakf1600(state: &mut KeccakF1600State) {
         0x8000000080008081u64, 0x8000000000008080u64, 0x80000001u64, 0x8000000080008008u64
     ];
     keccakF!(u64, 24, state, RHO, PI, RC);
+}
+
+impl Permutable for KeccakF1600State {
+    fn permute(&mut self) {
+        keccakf1600(self);
+    }
 }
 
 /// Type of `keccak-f[800]`'s state.
@@ -164,6 +175,12 @@ pub fn keccakf800(state: &mut KeccakF800State) {
     keccakF!(u32, 22, state, RHO, PI, RC);
 }
 
+impl Permutable for KeccakF800State {
+    fn permute(&mut self) {
+        keccakf800(self);
+    }
+}
+
 /// Type of `keccak-f[400]`'s state.
 pub type KeccakF400State = [u16;25];
 
@@ -181,6 +198,12 @@ pub fn keccakf400(state: &mut KeccakF400State) {
         0x8009u16, 0xau16, 0x808bu16, 0x8bu16, 0x8089u16, 0x8003u16, 0x8002u16, 0x80u16, 0x800au16, 0xau16
     ];
     keccakF!(u16, 20, state, RHO, PI, RC);
+}
+
+impl Permutable for KeccakF400State {
+    fn permute(&mut self) {
+        keccakf400(self);
+    }
 }
 
 /// Type of `keccak-f[200]`'s state.
@@ -203,12 +226,19 @@ pub fn keccakf200(state: &mut KeccakF200State) {
     keccakF!(u8, 18, state, RHO, PI, RC);
 }
 
+impl Permutable for KeccakF200State {
+    fn permute(&mut self) {
+        keccakf200(self);
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::keccakf1600;
     use crate::keccakf800;
     use crate::keccakf400;
     use crate::keccakf200;
+    use crate::Permutable;
     #[test]
     fn test_keccakf1600() {
         let mut data = [0u64; 25];
@@ -223,8 +253,9 @@ mod tests {
             0x940C7922AE3A2614, 0x1841F924A2C509E4, 0x16F53526E70465C2, 0x75F644E97F30A13B,
             0xEAF1FF7B5CECA249,
         ]);
-
-        keccakf1600(&mut data);
+        
+        data.permute();
+        //keccakf1600(&mut data);
         assert_eq!(data, [
             0x2D5C954DF96ECB3C, 0x6A332CD07057B56D, 0x093D8D1270D76B6C, 0x8A20D9B25569D094,
             0x4F9C4F99E5E7F156, 0xF957B9A2DA65FB38, 0x85773DAE1275AF0D, 0xFAF4F247C3D810F7,
@@ -247,7 +278,10 @@ mod tests {
             0x1A9E599A, 0xA3970A1F, 0xAB659687, 0xAFAB8D68, 0xE74B1015,
             0x34001A98, 0x4119EFF3, 0x930A0E76, 0x87B28070, 0x11EFE996,
         ]);
-        keccakf800(&mut data);
+        
+        data.permute();
+
+        //keccakf800(&mut data);
         assert_eq!(data, [
             0x75BF2D0D, 0x9B610E89, 0xC826AF40, 0x64CD84AB, 0xF905BDD6,
             0xBC832835, 0x5F8001B9, 0x15662CCE, 0x8E38C95E, 0x701FE543,
@@ -269,7 +303,9 @@ mod tests {
             0x633E, 0x58EE, 0x71FF, 0x714C, 0xB38E, 
         ]);
         
-        keccakf400(&mut data);
+        data.permute();
+
+        //keccakf400(&mut data);
         assert_eq!(data, [
             0xE537, 0xD5D6, 0xDBE7, 0xAAF3, 0x9BC7,
             0xCA7D, 0x86B2, 0xFDEC, 0x692C, 0x4E5B,
@@ -291,7 +327,9 @@ mod tests {
             0xD2, 0xC5, 0xAB, 0xAF, 0xEA,
         ]);
         
-        keccakf200(&mut data);
+        data.permute();
+        
+        //keccakf200(&mut data);
         assert_eq!(data, [
             0x1B, 0xEF, 0x68, 0x94, 0x92,
             0xA8, 0xA5, 0x43, 0xA5, 0x99,
