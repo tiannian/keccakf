@@ -1,6 +1,6 @@
 [package]
 name = "keccakf"
-version = "0.1.0"
+version = "0.1.1"
 description = "An implementation of the keccak-F[1600,800,400,200]."
 authors = ["tiannian <dtiannian@gmail.com>"]
 edition = "2018"
