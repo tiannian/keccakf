@@ -27,13 +27,13 @@ choose which function you want to use:
 
 ```rust
 use keccakf::KeccakF1600State; // Optional
-use keccakf::Permutable;
+use keccakf::Permutation;
 //...
 let state = [0u64;25];
 state.permute();
 ```
 
 ## Changelog
-- 0.1.3 - Add bits and nbytes in parameter.
+- 0.1.3 - Add bits and nbytes in parameter. Change trait `Permutable` to `Permutation`.
 
 

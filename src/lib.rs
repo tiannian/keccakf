@@ -29,7 +29,7 @@
 //!
 //! ```rust
 //! use keccakf::KeccakF1600State; // Optional
-//! use keccakf::Permutable;
+//! use keccakf::Permutation;
 //! // ...
 //! let mut state = [0u64;25];
 //! state.permute();
@@ -131,19 +131,20 @@ const PI: [usize; 24] = [
     20, 14, 22,  9,  6, 1
 ];
 
+/// Permutation's parameter
 pub struct PermutableParameter {
     pub bits: usize,
     pub nbytes: usize,
 }
 
 impl PermutableParameter {
-    pub fn new (bits: usize) -> PermutableParameter {
+    fn new (bits: usize) -> PermutableParameter {
         PermutableParameter { bits: bits , nbytes: bits / 8}
     }
 }
 
-/// Trait for Permutable
-pub trait Permutable {
+/// Trait for Permutation
+pub trait Permutation {
     fn permute(&mut self);
     fn parameter(&self) -> PermutableParameter;
 }
@@ -171,7 +172,7 @@ pub fn keccakf1600(state: &mut KeccakF1600State) {
     keccakF!(u64, 24, state, RHO, PI, RC);
 }
 
-impl Permutable for KeccakF1600State {
+impl Permutation for KeccakF1600State {
     fn permute(&mut self) {
         keccakf1600(self);
     }
@@ -202,7 +203,7 @@ pub fn keccakf800(state: &mut KeccakF800State) {
     keccakF!(u32, 22, state, RHO, PI, RC);
 }
 
-impl Permutable for KeccakF800State {
+impl Permutation for KeccakF800State {
     fn permute(&mut self) {
         keccakf800(self);
     }
@@ -232,7 +233,7 @@ pub fn keccakf400(state: &mut KeccakF400State) {
     keccakF!(u16, 20, state, RHO, PI, RC);
 }
 
-impl Permutable for KeccakF400State {
+impl Permutation for KeccakF400State {
     fn permute(&mut self) {
         keccakf400(self);
     }
@@ -263,7 +264,7 @@ pub fn keccakf200(state: &mut KeccakF200State) {
     keccakF!(u8, 18, state, RHO, PI, RC);
 }
 
-impl Permutable for KeccakF200State {
+impl Permutation for KeccakF200State {
     fn permute(&mut self) {
         keccakf200(self);
     }
@@ -279,7 +280,7 @@ mod tests {
     use crate::keccakf800;
     use crate::keccakf400;
     use crate::keccakf200;
-    use crate::Permutable;
+    use crate::Permutation;
     #[test]
     fn test_keccakf1600() {
         let mut data = [0u64; 25];
