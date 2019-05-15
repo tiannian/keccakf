@@ -14,7 +14,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-keccakf = "0.1.1"
+keccakf = "0.1.3"
 ```
 
 and this to your crate root:
@@ -26,7 +26,7 @@ extern crate keccakf;
 choose which function you want to use:
 
 ```rust
-use keccakf::KeccakF1600State;
+use keccakf::KeccakF1600State; // Optional
 use keccakf::Permutable;
 //...
 let state = [0u64;25];

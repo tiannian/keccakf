@@ -31,7 +31,7 @@
 //! use keccakf::KeccakF1600State; // Optional
 //! use keccakf::Permutable;
 //! // ...
-//! let state = [0u64;25];
+//! let mut state = [0u64;25];
 //! state.permute();
 //! ```
 //!
@@ -45,8 +45,7 @@
 //! tiannian ([dtiannian@aliyun.com](mailto:dtiannian@aliyun.com),
 //! [dtiannian@gmail.com](mailto:diannian@gmail.com))
 //!
-//! License: CC0, attribution kindly requested. Blame taken too,
-//! but not liability.
+//! License: CC0
 
 #![no_std]
 
@@ -132,9 +131,21 @@ const PI: [usize; 24] = [
     20, 14, 22,  9,  6, 1
 ];
 
+pub struct PermutableParameter {
+    pub bits: usize,
+    pub nbytes: usize,
+}
+
+impl PermutableParameter {
+    pub fn new (bits: usize) -> PermutableParameter {
+        PermutableParameter { bits: bits , nbytes: bits / 8}
+    }
+}
+
 /// Trait for Permutable
 pub trait Permutable {
     fn permute(&mut self);
+    fn parameter(&self) -> PermutableParameter;
 }
 
 /// Type of `keccak-f[1600]`'s state.
@@ -164,6 +175,10 @@ impl Permutable for KeccakF1600State {
     fn permute(&mut self) {
         keccakf1600(self);
     }
+
+    fn parameter(&self) -> PermutableParameter {
+        PermutableParameter::new(1600)
+    }
 }
 
 /// Type of `keccak-f[800]`'s state.
@@ -191,6 +206,10 @@ impl Permutable for KeccakF800State {
     fn permute(&mut self) {
         keccakf800(self);
     }
+
+    fn parameter(&self) -> PermutableParameter {
+        PermutableParameter::new(800)
+    }
 }
 
 /// Type of `keccak-f[400]`'s state.
@@ -216,6 +235,10 @@ pub fn keccakf400(state: &mut KeccakF400State) {
 impl Permutable for KeccakF400State {
     fn permute(&mut self) {
         keccakf400(self);
+    }
+
+    fn parameter(&self) -> PermutableParameter {
+        PermutableParameter::new(400)
     }
 }
 
@@ -243,6 +266,10 @@ pub fn keccakf200(state: &mut KeccakF200State) {
 impl Permutable for KeccakF200State {
     fn permute(&mut self) {
         keccakf200(self);
+    }
+
+    fn parameter(&self) -> PermutableParameter {
+        PermutableParameter::new(200)
     }
 }
 
@@ -279,6 +306,7 @@ mod tests {
             0x900E3129E7BADD7B, 0x202A9EC5FAA3CCE8, 0x5B3402464E1C3DB6, 0x609F4E62A44C1059,
             0x20D06CD26A8FBF5C,
         ]);
+        assert_eq!(data.parameter().nbytes,200);
     }
     #[test]
     fn test_keccakf800() {
@@ -303,6 +331,7 @@ mod tests {
             0xA2913EEE, 0x60754E9A, 0x9819063C, 0xF4709254, 0xD09F9084,
             0x772DA259, 0x1DB35DF7, 0x5AA60162, 0x358825D5, 0xB3783BAB,
         ]);
+        assert_eq!(data.parameter().nbytes,100);
     }
     #[test]
     fn test_keccakf400() {
@@ -327,6 +356,7 @@ mod tests {
             0x3F8A, 0x2F99, 0xE2C2, 0x656B, 0x5F31,
             0x5BA6, 0xCA29, 0xC224, 0xB85C, 0x097C,
         ]);
+        assert_eq!(data.parameter().nbytes,50);
     }
     #[test]
     fn test_keccakf200() {
@@ -351,6 +381,6 @@ mod tests {
             0x66, 0xA1, 0x4B, 0xE8, 0x27,
             0xD9, 0x50, 0x40, 0x47, 0x9E,
         ]);
-        
+        assert_eq!(data.parameter().nbytes,25);
     }
 }
