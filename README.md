@@ -33,3 +33,7 @@ let state = [0u64;25];
 state.permute();
 ```
 
+## Changelog
+- 0.1.3 - Add bits and nbytes in parameter.
+
+
