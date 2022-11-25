@@ -4,6 +4,7 @@ macro_rules! define_keccak_state {
     ($ty:ident, $length:expr, $pty:ty, $kf:ident) => {
         #[derive(Clone, Debug)]
         #[repr(align(8))]
+        /// State of keccak
         pub struct $ty([u8; 200]);
 
         impl Default for $ty {

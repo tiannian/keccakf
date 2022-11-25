@@ -33,7 +33,7 @@
 mod prelude;
 pub use prelude::*;
 
-pub mod macros;
+mod macros;
 
 mod keccakfs;
 pub use keccakfs::*;
